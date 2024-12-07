@@ -14,3 +14,5 @@ Servo - 25kg - https://sl.aliexpress.ru/p?key=PaFjrta
 
 Knife - New version made from the wire cutter pliers) - https://sl.aliexpress.ru/p?key=7uFjrai
 
+
+Video: https://youtu.be/orlaEyN5Hjo?si=UWuXjB8hRZYumTy6
