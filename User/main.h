@@ -7,8 +7,8 @@
 #include <ch32v00x.h>
 #include <stdbool.h>
 
-#define SW_REVISION "0.99"
-#define SW_DATE "03/10/2024"
+#define SW_REVISION "1.01"
+#define SW_DATE "07/12/2024"
 
 #define DRV_PIN GPIO_OUTDR_ODR6 // PD6
 #define DRV_ON GPIOD->BCR |= DRV_PIN
@@ -26,7 +26,7 @@
 #define START() (GPIOC->INDR & GPIO_INDR_IDR1)
 #define LEFT() (GPIOC->INDR & GPIO_INDR_IDR2)
 
-#define WIRE_END() (GPIOB->INDR & GPIO_INDR_IDR3)
+#define WIRE_END() (GPIOC->INDR & GPIO_INDR_IDR3)
 
 #define SHORT_PRESS 50u
 #define INC_PRESS 200u

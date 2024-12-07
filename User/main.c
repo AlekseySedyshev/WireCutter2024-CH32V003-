@@ -84,8 +84,8 @@ void init(void)
     }
     { // In Digit:  Wire_End
         GPIOC->CFGLR &= (~GPIO_CFGLR_CNF3);
-        GPIOC->OUTDR |= GPIO_OUTDR_ODR10;
-        GPIOC->CFGLR |= GPIO_CFGLR_CNF3_1; // Input Mode
+        GPIOC->OUTDR |= GPIO_OUTDR_ODR3;
+        GPIOC->CFGLR |= GPIO_CFGLR_CNF3_1; // Input Mode Pull Up
     }
 
     { // Servo PWM:   PD3 - Servo PWM
@@ -530,18 +530,50 @@ void action(void)
     lcd_puts("...");
     for (qq = set.wires_qnt; qq > 0; qq--)
     {
-        if(!WIRE_END()) // если провод закончился 
+        if (!WIRE_END()) // если провод закончился
         {
+            DRV_OFF;
+            TIM2->CH2CVR = set.knife_open;
+            lcd_clear();
+            lcd_gotoxy(7, 0);
+            lcd_puts_UTF8("Внимание");
+            lcd_gotoxy(1, 2);
+            lcd_puts_UTF8("Провод");
+            lcd_puts(" ");
+            lcd_puts_UTF8("закончился");
+            lcd_puts("!!!");
+            lcd_gotoxy(1, 4);
+            lcd_puts("[");
+            lcd_puts_UTF8("Старт");
+            lcd_puts("] - ");
+            lcd_puts_UTF8("Продолжить");
+            lcd_gotoxy(1, 5);
+            lcd_puts("[");
+            lcd_puts_UTF8("Стоп");
+            lcd_puts("]  - ");
+            lcd_puts_UTF8("Отмена");
 
+            while (STOP() && START())
+            {
+            };
+            if (!START())
+            {
+                DRV_ON;
+                lcd_clear();
+                lcd_gotoxy(4, 1);
+                lcd_puts_UTF8("Работаю");
+                lcd_puts("...");
+            }
         }
         if (!STOP())
         {
             DRV_OFF;
             TIM2->CH2CVR = set.knife_open;
             work_ = MODE_OFF;
-            DelayMs(1000);
+            // DelayMs(1000);
             lcd_clear();
-            return;
+            break;
+            // return;
         }
         DIR_FWD;
 
